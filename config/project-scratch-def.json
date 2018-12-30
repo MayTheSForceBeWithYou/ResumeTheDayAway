@@ -1,7 +1,7 @@
 {
-    "orgName": "nate Company",
+    "orgName": "Résumé Scratch Org",
     "edition": "Developer",
     "orgPreferences" : {
-        "enabled": ["S1DesktopEnabled"]
+        "enabled": ["S1DesktopEnabled","NetworksEnabled"]
     }
 }
