@@ -1,7 +1,8 @@
 {
     "orgName": "Résumé Scratch Org",
     "edition": "Developer",
+	"features": ["Communities"],
     "orgPreferences" : {
-        "enabled": ["S1DesktopEnabled","NetworksEnabled"]
+        "enabled": ["S1DesktopEnabled","ChatterEnabled","NetworksEnabled"]
     }
 }
