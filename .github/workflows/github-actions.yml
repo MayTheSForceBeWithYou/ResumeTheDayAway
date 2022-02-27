@@ -11,12 +11,13 @@ on:
     
 jobs:
   run-tests:
-    if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with: ${{ GitHub.ref }}
-        fetch-depth: 0
+        with: 
+          ref: ${{ GitHub.ref }}
+          fetch-depth: 0
+        if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
       
       - uses: actions/setup-node@v1
         with:
