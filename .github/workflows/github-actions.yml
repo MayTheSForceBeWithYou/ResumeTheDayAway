@@ -27,18 +27,12 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
       
-      # - uses: actions/checkout@v2
-      #   with: 
-      #     ref: ${{ GitHub.ref }}
-      #     fetch-depth: 0
-      #   if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
-      
-      # - uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '>=14'
-      #     check-latest: true
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '>=14'
+          check-latest: true
+      - run: echo "Node successfully installed"
       # - name: Install Salesforce CLI (sfdx)
       #   run: |
       #     npm install sfdx-cli
@@ -55,4 +49,6 @@ jobs:
       # - name: Run Apex Tests
       #   run:
       #     node_modules/sfdx-cli/bin/run force:apex:test:run --resultformat top --codecoverage -c -r human
+      
+      - run: echo "🍏 This job's status is ${{ job.status }}."
         
