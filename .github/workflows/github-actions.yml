@@ -8,32 +8,32 @@ on:
     paths:
       - 'force-app/**'
     
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with: ${{ GitHub.ref }}
-        fetch-depth: 0
-      if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
-        - uses: actions/setup-node@v1
-          with:
-            node-version: '>=14'
-            check-latest: true
-        - name: Install Salesforce CLI (sfdx)
-          run: |
-            npm install sfdx-cli
-            node_modules/sfdx-cli/bin/run --version
-            node_modules/sfdx-cli/bin/run plugins --core
-        
-        - name: 'Populate auth file with SFDX_URL secret'
-          shell: bash
-          run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
-        
-        - name: 'Authenticate against dev hub'
-          run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
-        
-        - name: Run Apex Tests
-          run:
-            node_modules/sfdx-cli/bin/run force:apex:test:run --resultformat top --codecoverage -c -r human
-        
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+          with: ${{ GitHub.ref }}
+          fetch-depth: 0
+        if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
+          - uses: actions/setup-node@v1
+            with:
+              node-version: '>=14'
+              check-latest: true
+          - name: Install Salesforce CLI (sfdx)
+            run: |
+              npm install sfdx-cli
+              node_modules/sfdx-cli/bin/run --version
+              node_modules/sfdx-cli/bin/run plugins --core
+          
+          - name: 'Populate auth file with SFDX_URL secret'
+            shell: bash
+            run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
+          
+          - name: 'Authenticate against dev hub'
+            run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
+          
+          - name: Run Apex Tests
+            run:
+              node_modules/sfdx-cli/bin/run force:apex:test:run --resultformat top --codecoverage -c -r human
+          
