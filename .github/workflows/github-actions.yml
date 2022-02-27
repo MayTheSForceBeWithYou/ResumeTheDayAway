@@ -1,7 +1,7 @@
 name: GitHub-Actions
 on:
   push:
-    branches: [ master ]
+    branches: [ master, data-structure ]
     paths:
       - 'force-app/**'
   pull_request:
