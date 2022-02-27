@@ -40,16 +40,17 @@ jobs:
           node_modules/sfdx-cli/bin/run plugins --core
       - run: echo "sfdx successfully installed"
       
-      # - name: 'Populate auth file with SFDX_URL secret'
-      #   shell: bash
-      #   run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
+      - name: 'Populate auth file with SFDX_URL secret'
+        shell: bash
+        run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
       
-      # - name: 'Authenticate against dev hub'
-      #   run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
+      - name: 'Authenticate against dev hub'
+        run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
+      - run: echo "Successfully authenticated against dev hub"
       
-      # - name: Run Apex Tests
-      #   run:
-      #     node_modules/sfdx-cli/bin/run force:apex:test:run --resultformat top --codecoverage -c -r human
+      - name: Run Apex Tests
+        run:
+          node_modules/sfdx-cli/bin/run force:apex:test:run --resultformat top --codecoverage -c -r human
       
       - run: echo "🍏 This job's status is ${{ job.status }}."
         
