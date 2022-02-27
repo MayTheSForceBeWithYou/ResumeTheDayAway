@@ -2,12 +2,12 @@ name: GitHub-Actions
 on:
   push:
     branches: [ master, data-structure ]
-    paths:
-      - 'force-app/**'
+    # paths:
+    #   - 'force-app/**'
   pull_request:
     branches: [ master ]
-    paths:
-      - 'force-app/**'
+    # paths:
+    #   - 'force-app/**'
     
 jobs:
   run-tests:
