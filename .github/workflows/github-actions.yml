@@ -15,8 +15,8 @@ jobs:
     steps:
       - name: Use GitHub Actions
         uses: actions/checkout@v2
-        # with: ${{ GitHub.ref }}
-        # fetch-depth: 0
+        with: ${{ GitHub.ref }}
+        fetch-depth: 0
       # if: GitHub.event.action == 'opened' || GitHub.event.action == 'synchronize' || GitHub.event_name == 'push'
       - name: Install node
         uses: actions/setup-node@v1
