@@ -50,7 +50,7 @@ jobs:
       
       - name: Run Apex Tests
         run:
-          node_modules/sfdx-cli/bin/run force:apex:test:run -r human -c -l RunLocalTests
+          node_modules/sfdx-cli/bin/run force:apex:test:run -r human -c -l RunTests -w 15
       
       - run: echo "🍏 This job's status is ${{ job.status }}."
         
