@@ -32,6 +32,8 @@ jobs:
       - name: Get changed files in pull request
         # env:
         #   PR_NUMBER: ${{ github.event.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr view ${{ github.event.number }} --json files --jq '.files.[].path' > prFiles.txt
           cat prFiles.txt
