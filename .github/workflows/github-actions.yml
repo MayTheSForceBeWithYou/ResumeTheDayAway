@@ -1,13 +1,13 @@
 name: GitHub-Actions
 on:
-  push:
-    branches: [ master ]
-    # paths:
-    #   - 'force-app/**'
+  # push:
+  #   branches: [ master ]
+  #   paths:
+  #     - 'force-app/**'
   pull_request:
     branches: [ master ]
-    # paths:
-    #   - 'force-app/**'
+    paths:
+      - 'force-app/**'
     
 jobs:
   run-tests:
@@ -18,23 +18,38 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with: 
           ref: ${{ github.ref }}
           fetch-depth: 0
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      
       # - name: List files in the repository
       #   run: |
       #     ls ${{ github.workspace }}
-      - id: changedfiles
-        uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'csv'
-      - run: |
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            echo "Do something with this ${changed_file}."
-          done
+      
+      - name: Get changed files in pull request
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          gh pr view ${{ PR_NUMBER }} --json files --jq '.files.[].path' > prFiles.txt
+          cat prFiles.txt
+      
+      ## Changed Files plugin
+      # - id: changedfiles
+      #   uses: jitterbit/get-changed-files@v1
+      #   with:
+      #     format: 'csv'
+      
+      ## Do something for each space-separated changed file
+      # - run: |
+      #     for changed_file in ${{ steps.files.outputs.all }}; do
+      #       echo "Do something with this ${changed_file}."
+      #     done
+      
+      
+      ## Do something for each comma-separated added/modified file
       # - run: |
       #   mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
       #   for added_modified_file in "${added_modified_files[@]}"; do
