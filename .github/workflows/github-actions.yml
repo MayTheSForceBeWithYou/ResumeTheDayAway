@@ -56,29 +56,29 @@ jobs:
       #     echo "Do something with this ${added_modified_file}."
       #   done
       
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '>=14'
-      - run: echo "Node successfully installed"
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '>=14'
+      # - run: echo "Node successfully installed"
 
-      - name: Install Salesforce CLI (sfdx)
-        run: |
-          npm install sfdx-cli
-          node_modules/sfdx-cli/bin/run --version
-          node_modules/sfdx-cli/bin/run plugins --core
-      - run: echo "sfdx successfully installed"
+      # - name: Install Salesforce CLI (sfdx)
+      #   run: |
+      #     npm install sfdx-cli
+      #     node_modules/sfdx-cli/bin/run --version
+      #     node_modules/sfdx-cli/bin/run plugins --core
+      # - run: echo "sfdx successfully installed"
       
-      - name: 'Populate auth file with SFDX_URL secret'
-        shell: bash
-        run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
+      # - name: 'Populate auth file with SFDX_URL secret'
+      #   shell: bash
+      #   run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
       
-      - name: 'Authenticate against dev hub'
-        run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
-      - run: echo "Successfully authenticated against dev hub"
+      # - name: 'Authenticate against dev hub'
+      #   run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
+      # - run: echo "Successfully authenticated against dev hub"
       
-      - name: Run Apex Tests
-        run:
-          node_modules/sfdx-cli/bin/run force:apex:test:run -r human -c -l RunLocalTests -w 20
+      # - name: Run Apex Tests
+      #   run:
+      #     node_modules/sfdx-cli/bin/run force:apex:test:run -r human -c -l RunLocalTests -w 20
       
       - run: echo "🍏 This job's status is ${{ job.status }}."
         
