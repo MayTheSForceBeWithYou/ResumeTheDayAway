@@ -30,10 +30,10 @@ jobs:
       #     ls ${{ github.workspace }}
       
       - name: Get changed files in pull request
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+        # env:
+        #   PR_NUMBER: ${{ github.event.number }}
         run: |
-          gh pr view ${{ PR_NUMBER }} --json files --jq '.files.[].path' > prFiles.txt
+          gh pr view ${{ github.event.number }} --json files --jq '.files.[].path' > prFiles.txt
           cat prFiles.txt
       
       ## Changed Files plugin
