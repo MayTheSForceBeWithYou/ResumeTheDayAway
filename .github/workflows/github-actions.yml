@@ -1,7 +1,7 @@
 name: GitHub-Actions
 on:
   push:
-    branches: [ master, data-structure ]
+    branches: [ master ]
     # paths:
     #   - 'force-app/**'
   pull_request:
@@ -24,9 +24,19 @@ jobs:
           fetch-depth: 0
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
+      # - name: List files in the repository
+      #   run: |
+      #     ls ${{ github.workspace }}
+      - id: changedfiles
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
+      - run: |
+        echo ${{ steps.files.outputs.added_modified}}
+        mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+        for added_modified_file in "${added_modified_files[@]}"; do
+          echo "Do something with this ${added_modified_file}."
+        done
       
       - uses: actions/setup-node@v1
         with:
