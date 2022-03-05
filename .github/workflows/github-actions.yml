@@ -1,0 +1,86 @@
+name: GitHub-Actions
+on:
+  # push:
+  #   branches: [ master ]
+  #   paths:
+  #     - 'force-app/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'force-app/**'
+    
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event_name == 'push'
+        uses: actions/checkout@v3
+        with: 
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      
+      # - name: List files in the repository
+      #   run: |
+      #     ls ${{ github.workspace }}
+      
+      - name: Get changed files in pull request
+        # env:
+        #   PR_NUMBER: ${{ github.event.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr view ${{ github.event.number }} --json files --jq '.files.[].path' > prFiles.txt
+          cat prFiles.txt
+      
+      ## Changed Files plugin
+      # - id: changedfiles
+      #   uses: jitterbit/get-changed-files@v1
+      #   with:
+      #     format: 'csv'
+      
+      ## Do something for each space-separated changed file
+      # - run: |
+      #     for changed_file in ${{ steps.files.outputs.all }}; do
+      #       echo "Do something with this ${changed_file}."
+      #     done
+      
+      
+      ## Do something for each comma-separated added/modified file
+      # - run: |
+      #   mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+      #   for added_modified_file in "${added_modified_files[@]}"; do
+      #     echo "Do something with this ${added_modified_file}."
+      #   done
+      
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '>=14'
+      # - run: echo "Node successfully installed"
+
+      # - name: Install Salesforce CLI (sfdx)
+      #   run: |
+      #     npm install sfdx-cli
+      #     node_modules/sfdx-cli/bin/run --version
+      #     node_modules/sfdx-cli/bin/run plugins --core
+      # - run: echo "sfdx successfully installed"
+      
+      # - name: 'Populate auth file with SFDX_URL secret'
+      #   shell: bash
+      #   run: 'echo ${{ secrets.SFDX_DEVHUB_URL}} > SFDX_QA'
+      
+      # - name: 'Authenticate against dev hub'
+      #   run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_QA -s -a LRQA
+      # - run: echo "Successfully authenticated against dev hub"
+      
+      # - name: Run Apex Tests
+      #   run:
+      #     node_modules/sfdx-cli/bin/run force:apex:test:run -r human -c -l RunLocalTests -w 20
+      
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+        
